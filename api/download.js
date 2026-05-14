@@ -28,7 +28,7 @@ module.exports = async function handler(req, res) {
   const rows = await Promise.all(
     blobs.map(async (blob) => {
       try {
-        const r = await fetch(blob.url);
+        const r = await fetch(blob.downloadUrl);
         return await r.json();
       } catch {
         return null;
