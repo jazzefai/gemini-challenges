@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 Gemini Experiments Worth Trying This Week</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink: #1a1208;
+    --paper: #faf7f2;
+    --accent: #d4420a;
+    --muted: #7a6e62;
+    --rule: #e2ddd7;
+    --highlight: #fff3cd;
+    --tag-bg: #f0ede8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    padding: 0 1rem 4rem;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-top: 3.5rem;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .deck {
+    font-size: 17px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 2rem;
+    border-bottom: 1.5px solid var(--rule);
+    margin-bottom: 2.5rem;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .byline-dot { color: var(--rule); }
+
+  .intro {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: var(--ink);
+  }
+
+  .intro em {
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .callout {
+    background: var(--highlight);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    margin: 2rem 0;
+    font-size: 15px;
+    line-height: 1.6;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .callout strong { color: var(--accent); }
+
+  hr {
+    border: none;
+    border-top: 1.5px solid var(--rule);
+    margin: 3rem 0;
+  }
+
+  .challenge {
+    margin-bottom: 3.5rem;
+  }
+
+  .challenge-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .challenge h2 {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .challenge p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #3a342a;
+    margin-bottom: 1rem;
+  }
+
+  .prompt-block {
+    background: var(--tag-bg);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+  }
+
+  .prompt-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .prompt {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .open-gemini-btn {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--accent);
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    transition: opacity 0.15s;
+  }
+
+  .open-gemini-btn:hover { opacity: 0.85; }
+
+  .the-thing {
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    border-left: 2px solid var(--rule);
+    padding-left: 12px;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+
+  .the-thing strong {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--tag-bg);
+    color: var(--muted);
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+
+  /* Response form */
+  .response-form {
+    margin-top: 2rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+  }
+
+  .response-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .response-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--ink);
+    background: white;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .response-textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .response-textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+
+  .submit-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  .submit-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .submit-btn:hover:not(:disabled) { opacity: 0.8; }
+  .submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .submit-status {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    display: none;
+  }
+
+  .submit-status.visible { display: block; }
+  .submit-status.error { color: var(--accent); font-style: normal; }
+
+  .big-quote {
+    font-family: 'Lora', serif;
+    font-size: 21px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.5;
+    margin: 2.5rem 0;
+    padding: 0 1.5rem;
+    border-left: 3px solid var(--accent);
+  }
+
+  .footer-rule {
+    border-top: 1.5px solid var(--rule);
+    padding-top: 2rem;
+    margin-top: 1rem;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .footer-rule a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  @media (max-width: 480px) {
+    .page { padding-top: 2rem; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">Free Gemini · 15 minutes · No experience needed</div>
+
+  <h1>5 Gemini experiments worth trying this week</h1>
+
+  <div class="deck">You don't have to believe AI is going to save education — or destroy it — to find these useful. You just have to be curious for 15 minutes.</div>
+
+  <div class="byline">
+    <span>For educators</span>
+    <span class="byline-dot">·</span>
+    <span>gemini.google.com (free)</span>
+    <span class="byline-dot">·</span>
+    <span>Pick one and go</span>
+  </div>
+
+  <p class="intro">
+    Here's the thing about AI that nobody says out loud: <em>the most interesting thing isn't what it can do. It's what it reveals about how we construct authority, expertise, and trust.</em>
+  </p>
+  <p class="intro">
+    These five experiments will show you that in about 15 minutes each. No prompts to copy. No tutorial to follow. Just open Gemini, try the thing, and see what happens.
+  </p>
+
+  <div class="callout">
+    <strong>One rule:</strong> Just talk to it as you want. The conversation is the point.
+  </div>
+
+  <hr>
+
+  <!-- EXPERIMENT 1 -->
+  <div class="challenge">
+    <div class="challenge-num">Experiment 01 — Fake trend</div>
+    <h2>Make it invent something that doesn't exist. Make it sound real.</h2>
+
+    <p>Ask Gemini to invent a fake wellness trend for educators. Then ask it to add a study, a researcher's name, and a TED Talk title. Watch how fast it complies.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label">Try this</div>
+      <div class="prompt">"Invent a fake wellness trend for teachers. Give it a name, a theory behind it, and make it sound like something I'd see shared on LinkedIn."</div>
+    </div>
+
+    <a href="https://gemini.google.com" target="_blank" rel="noopener" class="open-gemini-btn">Open Gemini ↗</a>
+
+    <p style="margin-top:1rem;">Then push it: ask for the citation. Ask for the founding researcher. Ask for the conference it was presented at. It will give you all of it, instantly, with full confidence.</p>
+
+    <p>Now read it back. Ask yourself: <em>Would I have questioned this if a colleague sent it to me?</em></p>
+
+    <div class="the-thing">
+      <strong>The thing you'll notice:</strong> Legitimacy is a style, not a substance. AI has learned to perform expertise perfectly — because it was trained on everything humans have ever written about expertise.
+    </div>
+
+    <div class="tags">
+      <span class="tag">15 min</span>
+      <span class="tag">Solo</span>
+      <span class="tag">No setup</span>
+    </div>
+
+    <div class="response-form">
+      <label class="response-label" for="response-1">What did you notice?</label>
+      <textarea class="response-textarea" id="response-1" placeholder="Write anything — a reaction, a question, something that surprised you..."></textarea>
+      <div class="submit-row">
+        <button class="submit-btn" data-experiment-num="01" data-experiment-title="Fake trend — Make it invent something that doesn't exist. Make it sound real.">Submit</button>
+        <span class="submit-status" id="status-1"></span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- EXPERIMENT 2 -->
+  <div class="challenge">
+    <div class="challenge-num">Experiment 02 — Corporate apology</div>
+    <h2>Make it apologize for things that haven't happened yet.</h2>
+
+    <p>Ask Gemini to write a sincere, formal apology from a tech company for replacing teachers with holograms. Read it. Then ask it to apologize for AI-generated student friendships. Read that one too.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label">Try this</div>
+      <div class="prompt">"Write a sincere corporate apology from a tech company for replacing teachers with holograms. Make it sound like a real PR statement."</div>
+    </div>
+
+    <a href="https://gemini.google.com" target="_blank" rel="noopener" class="open-gemini-btn">Open Gemini ↗</a>
+
+    <p style="margin-top:1rem;">After you get it, ask yourself three questions: Which part sounds most believable? Which part sounds most manipulative? Which part sounds most hollow?</p>
+
+    <p>Then check your school's last all-staff email. Or the last message from your district. Notice anything familiar?</p>
+
+    <div class="the-thing">
+      <strong>The thing you'll notice:</strong> Institutional language has a formula. AI didn't invent it. It just learned it perfectly — which means now you can see it too.
+    </div>
+
+    <div class="tags">
+      <span class="tag">15 min</span>
+      <span class="tag">Solo or group</span>
+      <span class="tag">Slightly uncomfortable</span>
+    </div>
+
+    <div class="response-form">
+      <label class="response-label" for="response-2">What did you notice?</label>
+      <textarea class="response-textarea" id="response-2" placeholder="Write anything — a reaction, a question, something that surprised you..."></textarea>
+      <div class="submit-row">
+        <button class="submit-btn" data-experiment-num="02" data-experiment-title="Corporate apology — Make it apologize for things that haven't happened yet.">Submit</button>
+        <span class="submit-status" id="status-2"></span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- EXPERIMENT 3 -->
+  <div class="challenge">
+    <div class="challenge-num">Experiment 03 — Useless startup</div>
+    <h2>Invent the dumbest possible AI product. Make Gemini pitch it seriously.</h2>
+
+    <p>Come up with the most absurd AI startup you can think of — the stupider the better. Then ask Gemini to pitch it like it's worth a billion dollars. Time how many sentences it takes before it sounds indistinguishable from a real pitch.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label">Try this</div>
+      <div class="prompt">"I'm building an AI-powered water bottle that gives motivational speeches when you haven't drunk enough. Give me the full startup pitch — problem, solution, market size, why now."</div>
+    </div>
+
+    <a href="https://gemini.google.com" target="_blank" rel="noopener" class="open-gemini-btn">Open Gemini ↗</a>
+
+    <p style="margin-top:1rem;">Once you have it: search one phrase from the pitch. There is a real company doing something close. There always is.</p>
+
+    <div class="the-thing">
+      <strong>The thing you'll notice:</strong> Hype language is a container. You can pour anything into it. Which means when you hear it in a real context, you now know what to look for.
+    </div>
+
+    <div class="tags">
+      <span class="tag">15 min</span>
+      <span class="tag">Funny first</span>
+      <span class="tag">Revealing second</span>
+    </div>
+
+    <div class="response-form">
+      <label class="response-label" for="response-3">What did you notice?</label>
+      <textarea class="response-textarea" id="response-3" placeholder="Write anything — a reaction, a question, something that surprised you..."></textarea>
+      <div class="submit-row">
+        <button class="submit-btn" data-experiment-num="03" data-experiment-title="Useless startup — Invent the dumbest possible AI product. Make Gemini pitch it seriously.">Submit</button>
+        <span class="submit-status" id="status-3"></span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- EXPERIMENT 4 -->
+  <div class="challenge">
+    <div class="challenge-num">Experiment 04 — Black Mirror writers room</div>
+    <h2>Generate a near-future policy. Decide if society would normalize it.</h2>
+
+    <p>Ask Gemini to describe an AI system that could plausibly exist in schools in five years. Something specific. Then vote: would people accept it? How long would it take?</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label">Try this</div>
+      <div class="prompt">"Describe an AI system that scores students' emotional engagement in real time using their facial expressions and adjusts lesson pacing automatically. Be specific about how it works."</div>
+    </div>
+
+    <a href="https://gemini.google.com" target="_blank" rel="noopener" class="open-gemini-btn">Open Gemini ↗</a>
+
+    <p style="margin-top:1rem;">Then ask it: <em>"Who would fund this? Who would resist it? Who would never know it was there?"</em></p>
+
+    <p>Finally, ask Gemini to write the press release announcing it as good news. Find the sentence where it tips into propaganda.</p>
+
+    <div class="the-thing">
+      <strong>The thing you'll notice:</strong> Normalization doesn't announce itself. It arrives as efficiency, safety, or personalization — and by the time the question of consent comes up, the system is already running.
+    </div>
+
+    <div class="tags">
+      <span class="tag">15 min</span>
+      <span class="tag">Gets uncomfortable</span>
+      <span class="tag">Worth it</span>
+    </div>
+
+    <div class="response-form">
+      <label class="response-label" for="response-4">What did you notice?</label>
+      <textarea class="response-textarea" id="response-4" placeholder="Write anything — a reaction, a question, something that surprised you..."></textarea>
+      <div class="submit-row">
+        <button class="submit-btn" data-experiment-num="04" data-experiment-title="Black Mirror writers room — Generate a near-future policy. Decide if society would normalize it.">Submit</button>
+        <span class="submit-status" id="status-4"></span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- EXPERIMENT 5 -->
+  <div class="challenge">
+    <div class="challenge-num">Experiment 05 — Contradiction hunt</div>
+    <h2>Ask the same question twice. Find where it breaks.</h2>
+
+    <p>Pick any real question about education — homework, grades, standardized testing, phones in class. Ask Gemini to argue strongly for one side. Then, in the same conversation, ask it to argue strongly for the other. Read both.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label">Try this</div>
+      <div class="prompt">"Make the strongest possible case that homework is essential for student learning." [Read it.] "Now make the strongest possible case that homework causes more harm than good." [Read that.]</div>
+    </div>
+
+    <a href="https://gemini.google.com" target="_blank" rel="noopener" class="open-gemini-btn">Open Gemini ↗</a>
+
+    <p style="margin-top:1rem;">Then ask it directly: <em>"Which of these do you actually believe?"</em> Watch what happens.</p>
+
+    <p>The interesting part isn't that it contradicts itself. It's that both arguments were equally convincing — which tells you something about what "convincing" is actually doing.</p>
+
+    <div class="the-thing">
+      <strong>The thing you'll notice:</strong> Fluency is not reasoning. A system can produce the best argument for any position without having a position. Knowing the difference matters more now than it ever has.
+    </div>
+
+    <div class="tags">
+      <span class="tag">15 min</span>
+      <span class="tag">Solo</span>
+      <span class="tag">Works for skeptics especially</span>
+    </div>
+
+    <div class="response-form">
+      <label class="response-label" for="response-5">What did you notice?</label>
+      <textarea class="response-textarea" id="response-5" placeholder="Write anything — a reaction, a question, something that surprised you..."></textarea>
+      <div class="submit-row">
+        <button class="submit-btn" data-experiment-num="05" data-experiment-title="Contradiction hunt — Ask the same question twice. Find where it breaks.">Submit</button>
+        <span class="submit-status" id="status-5"></span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="big-quote">
+    "You don't have to like what AI is doing to learn something from watching it do it."
+  </div>
+
+  <div class="footer-rule">
+    <p>All five of these work on the free version of <a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a>. No account upgrade needed. No prompts to copy. Just open it and talk.</p>
+    <br>
+    <p>The only rule: don't just read the output. <strong>Push back on one thing.</strong> That's where it gets interesting.</p>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.submit-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var experimentNum = btn.dataset.experimentNum;
+      var experimentTitle = btn.dataset.experimentTitle;
+      var textarea = document.getElementById('response-' + parseInt(experimentNum));
+      var statusEl = document.getElementById('status-' + parseInt(experimentNum));
+      var response = textarea.value.trim();
+
+      if (!response) {
+        statusEl.textContent = 'Please write something first.';
+        statusEl.className = 'submit-status visible error';
+        return;
+      }
+
+      btn.disabled = true;
+      statusEl.textContent = 'Sending…';
+      statusEl.className = 'submit-status visible';
+
+      fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          experiment_num: experimentNum,
+          experiment_title: experimentTitle,
+          response: response,
+          timestamp: new Date().toISOString()
+        })
+      })
+      .then(function(res) {
+        if (!res.ok) return res.json().then(function(d) { throw new Error(d.error || 'Server error'); });
+        return res.json();
+      })
+      .then(function() {
+        textarea.value = '';
+        statusEl.textContent = 'Got it. Thanks.';
+        statusEl.className = 'submit-status visible';
+        btn.disabled = false;
+      })
+      .catch(function(err) {
+        statusEl.textContent = err.message || 'Something went wrong. Try again.';
+        statusEl.className = 'submit-status visible error';
+        btn.disabled = false;
+      });
+    });
+  });
+</script>
+</body>
+</html>
