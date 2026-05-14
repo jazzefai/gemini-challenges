@@ -1,4 +1,4 @@
-const { kv } = require('@vercel/kv');
+const { put } = require('@vercel/blob');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,7 +21,12 @@ module.exports = async function handler(req, res) {
     response,
   };
 
-  await kv.lpush('responses', JSON.stringify(entry));
+  const filename = `response-${entry.timestamp.replace(/[:.]/g, '-')}-${Math.random().toString(36).slice(2, 8)}.json`;
+
+  await put(filename, JSON.stringify(entry), {
+    access: 'public',
+    contentType: 'application/json',
+  });
 
   return res.status(200).json({ ok: true });
 };

@@ -1,4 +1,4 @@
-const { kv } = require('@vercel/kv');
+const { list } = require('@vercel/blob');
 
 function escapeCSV(value) {
   if (value == null) return '';
@@ -16,17 +16,32 @@ module.exports = async function handler(req, res) {
     return res.status(401).send('Unauthorized');
   }
 
-  const raw = await kv.lrange('responses', 0, -1);
+  const blobs = [];
+  let cursor;
 
-  const rows = raw.map(function(item) {
-    try { return JSON.parse(item); } catch { return null; }
-  }).filter(Boolean);
+  do {
+    const page = await list({ prefix: 'response-', cursor, limit: 1000 });
+    blobs.push(...page.blobs);
+    cursor = page.cursor;
+  } while (cursor);
 
-  // Most recent first (lpush stores newest at index 0)
+  const rows = await Promise.all(
+    blobs.map(async (blob) => {
+      try {
+        const r = await fetch(blob.url);
+        return await r.json();
+      } catch {
+        return null;
+      }
+    })
+  );
+
+  const valid = rows.filter(Boolean).sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+
   const header = ['Timestamp', 'Experiment', 'Title', 'Response'];
   const lines = [header.join(',')];
 
-  for (const row of rows) {
+  for (const row of valid) {
     lines.push([
       escapeCSV(row.timestamp),
       escapeCSV(row.experiment),
