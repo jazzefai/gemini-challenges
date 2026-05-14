@@ -23,14 +23,10 @@ module.exports = async function handler(req, res) {
 
   const filename = `response-${entry.timestamp.replace(/[:.]/g, '-')}-${Math.random().toString(36).slice(2, 8)}.json`;
 
-  try {
-    await put(filename, JSON.stringify(entry), {
-      access: 'private',
-      contentType: 'application/json',
-    });
-  } catch (err) {
-    return res.status(500).json({ error: err.message, stack: err.stack });
-  }
+  await put(filename, JSON.stringify(entry), {
+    access: 'public',
+    contentType: 'application/json',
+  });
 
   return res.status(200).json({ ok: true });
 };
